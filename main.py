@@ -10,6 +10,8 @@ import datetime
 
 app = dash.Dash(__name__)
 
+image_path = "C:/Users/jvivekg/PycharmProjects/FaceMaskDetection/DetectedFaces/"
+
 def generate_thumbnail(image,count):
     style = {'padding': '5px', 'fontSize': '16px', 'text-align': 'left'}
     return html.Div([
@@ -32,6 +34,10 @@ app.layout = html.Div(
         html.H1(children="No Mask: Wall of Shame"),
         html.Div(id="date-update"),
         html.H3(children="Faces Detected Today"),
+        html.H4(children="Policy for Image Update:"),
+        html.P(children="The count of detected face increases if the face is detected without mask "
+                        "for more than 5 min. The counts keeps on increasing every 5 min by default. "
+                        "The default settings can be changed from options below."),
         html.Div(id="image-update"),
         dcc.Interval(
             id='interval-component',
@@ -46,7 +52,6 @@ app.layout = html.Div(
               [Input('interval-component', 'n_intervals')])
 def update_image(n):
     images_div = []
-    image_path = "C:/Users/vivek/PycharmProjects/FaceMaskDetection/DetectedFaces/"
     listOfPics = os.listdir(image_path)
     for i in listOfPics:
         count = int(i.split(" ")[2][:-4])
